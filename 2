@@ -1,0 +1,12 @@
+import kotlinx.coroutines.*
+
+fun main() = runBlocking {
+    val deferred = async {
+        delay(1000)
+        42 // результат вычисления
+    }
+
+    println("Считаю что-то ещё...")
+    val result = deferred.await() // блокирующе ждём результат
+    println("Получили: $result")
+}
