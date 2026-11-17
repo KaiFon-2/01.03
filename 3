@@ -1,0 +1,28 @@
+import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
+
+fun main() = runBlocking {
+    val time = measureTimeMillis {
+        // Запускаем 3 задачи параллельно
+        val user = async { fetchUser() }
+        val posts = async { fetchPosts() }
+        val comments = async { fetchComments() }
+
+        // Ждём все результаты
+        println("User: ${user.await()}")
+        println("Posts: ${posts.await()}")
+        println("Comments: ${comments.await()}")
+    }
+
+    println("⏱ Общее время: ${time} мс") // 
+}
+
+suspend fun fetchUser(): String {
+    delay(1000); return "Alice"
+}
+suspend fun fetchPosts(): List<String> {
+    delay(1000); return listOf("Post 1", "Post 2")
+}
+suspend fun fetchComments(): Int {
+    delay(1000); return 42
+}
