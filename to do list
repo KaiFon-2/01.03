@@ -1,0 +1,61 @@
+fun main() {
+    // Хранилище задач
+    val tasks = mutableListOf<String>()
+
+    // Бесконечный цикл для работы меню
+    while (true) {
+        println("\n=== To-Do List ===")
+        println("1. Добавить задачу")
+        println("2. Показать задачи")
+        println("3. Удалить задачу")
+        println("4. Выход")
+        print("Выберите действие: ")
+
+        // Обработка выбора пользователя
+        when (readlnOrNull()) {
+            "1" -> {
+                print("Введите текст задачи: ")
+                val task = readlnOrNull()
+                if (!task.isNullOrBlank()) {
+                    tasks.add(task)
+                    println("Задача добавлена!")
+                }
+            }
+            
+            "2" -> {
+                if (tasks.isEmpty()) {
+                    println("Список задач пуст.")
+                } else {
+                    println("Ваши задачи:")
+                    tasks.forEachIndexed { index, task -> 
+                        println("${index + 1}. $task") 
+                    }
+                }
+            }
+            
+            "3" -> {
+                if (tasks.isEmpty()) {
+                    println("Нечего удалять.")
+                } else {
+                    tasks.forEachIndexed { index, task -> println("${index + 1}. $task") }
+                    print("Введите номер задачи для удаления: ")
+                    val choice = readlnOrNull()?.toIntOrNull()
+                    
+                    if (choice != null && choice in 1..tasks.size) {
+                        tasks.removeAt(choice - 1)
+                        println("Задача удалена!")
+                    } else {
+                        println("Неверный номер.")
+                    }
+                }
+            }
+            
+            "4" -> {
+                println("До свидания!")
+                break // Выход из цикла
+            }
+            
+            else -> println("Нет такого пункта меню.")
+        }
+    }
+}
