@@ -1,0 +1,28 @@
+import kotlinx.coroutines.*
+
+fun main() = runBlocking {
+    supervisorScope {
+        val task1 = async {
+            delay(500)
+            println("Задача 1 выполнена")
+            "Result 1"
+        }
+
+        val task2 = async {
+            delay(300)
+            throw RuntimeException("Ошибка в задаче 2!")
+        }
+
+        val task3 = async {
+            delay(700)
+            println("Задача 3 выполнена")
+            "Result 3"
+        }
+
+        // Обрабатываем каждую ошибку отдельно
+        try { println(task1.await()) } catch (e: Exception) { println("Ошибка 1: ${e.message}") }
+        try { println(task2.await()) } catch (e: Exception) { println("Ошибка 2: ${e.message}") }
+        try { println(task3.await()) } catch (e: Exception) { println("Ошибка 3: ${e.message}") }
+    }
+    println("Программа продолжает работу")
+}
