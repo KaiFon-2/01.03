@@ -1,0 +1,19 @@
+import kotlinx.coroutines.*
+
+fun main() = runBlocking {
+    println("Начало в потоке: ${Thread.currentThread().name}")
+
+    val result = doHeavyWork()
+
+    println("Результат: $result")
+    println("Конец в потоке: ${Thread.currentThread().name}")
+}
+
+suspend fun doHeavyWork(): String {
+    return withContext(Dispatchers.IO) {
+        println("Работаю в: ${Thread.currentThread().name}")
+        delay(500) 
+        "Данные загружены"
+    }
+    // После withContext мы снова в исходном контексте
+}
